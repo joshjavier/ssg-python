@@ -1,4 +1,4 @@
-from lib.regex import extract_markdown_images, extract_markdown_links
+from lib.extract import extract_markdown_images, extract_markdown_links
 from textnode import TextNode, TextType
 
 
