@@ -45,6 +45,11 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         self.assertEqual(new_nodes[2].text, " in the middle")
         self.assertEqual(new_nodes[2].text_type, TextType.TEXT)
 
+    def test_split_text_invalid_markdown(self):
+        node = TextNode("This text has _invalid Markdown syntax", TextType.TEXT)
+        with self.assertRaises(Exception):
+            new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
+
     def test_split_images(self):
         node = TextNode(
             "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",

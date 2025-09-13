@@ -4,11 +4,16 @@ from textnode import TextNode, TextType
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
-    for node in old_nodes:
-        if node.text_type != TextType.TEXT:
-            raise Exception("parsing TextType other than TEXT is not yet implemented")
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
 
-        segments = node.text.split(delimiter)
+        segments = old_node.text.split(delimiter)
+        if len(segments) % 2 == 0:
+            raise Exception(
+                "Invalid markdown syntax: Matching closing delimiter not found."
+            )
         for i in range(len(segments)):
             # segments at even indices are text segments,
             # while segments at odd indices are `text_type`
@@ -62,7 +67,9 @@ def split_nodes_link(old_nodes):
         split_nodes = []
         for link_anchor, link_href in links:
             # add nodes for each extracted link and the text before it
-            first_segment, original_text = original_text.split(f"[{link_anchor}]({link_href})", 1)
+            first_segment, original_text = original_text.split(
+                f"[{link_anchor}]({link_href})", 1
+            )
             if first_segment:
                 split_nodes.append(TextNode(first_segment, TextType.TEXT))
             split_nodes.append(TextNode(link_anchor, TextType.LINK, link_href))
