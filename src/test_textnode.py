@@ -10,8 +10,8 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node, node2)
 
     def test_not_eq_text(self):
-        node = TextNode("Windows", TextType.PLAIN)
-        node2 = TextNode("Linux", TextType.PLAIN)
+        node = TextNode("Windows", TextType.TEXT)
+        node2 = TextNode("Linux", TextType.TEXT)
         self.assertNotEqual(node, node2)
 
     def test_not_eq_text_type(self):
