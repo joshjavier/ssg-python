@@ -23,8 +23,10 @@ class BlockType(Enum):
 
 def block_to_block_type(block):
     heading = re.compile(r"^#{1,6} .+$")
-    code = re.compile(r"^\s*```.*\n.*\n\s*```\s*$")
+    code = re.compile(r"^```.*\n.*\n\s*```$")
     quote = re.compile(r"^> .+$", re.MULTILINE)
+    unordered_list = re.compile(r"^\s*- .+$", re.MULTILINE)
+    ordered_list = re.compile(r"^\s*\d+\. .+$", re.MULTILINE)
 
     if heading.match(block):
         return BlockType.HEADING
@@ -34,5 +36,20 @@ def block_to_block_type(block):
 
     if quote.search(block):
         return BlockType.QUOTE
+
+    if unordered_list.search(block):
+        return BlockType.UNORDERED_LIST
+
+    if ordered_list.search(block):
+        lines = [line.strip() for line in block.split("\n")]
+        for i in range(len(lines)):
+            number, _ = lines[i].split(".", 1)
+            number = int(number)
+            if i == 0:
+                if number != 1:
+                    return BlockType.PARAGRAPH
+            elif number != i + 1:
+                return BlockType.PARAGRAPH
+        return BlockType.ORDERED_LIST
 
     return BlockType.PARAGRAPH
