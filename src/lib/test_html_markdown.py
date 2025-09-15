@@ -33,3 +33,27 @@ the **same** even with inline stuff
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
         )
+
+    def test_heading(self):
+        md = "# Header"
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, "<div><h1>Header</h1></div>")
+
+    def test_heading_2(self):
+        md = "## Header"
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, "<div><h2>Header</h2></div>")
+
+    def test_heading_6(self):
+        md = "###### Header"
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, "<div><h6>Header</h6></div>")
+
+    def test_not_a_heading(self):
+        md = "####### Header"
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, "<div><p>####### Header</p></div>")

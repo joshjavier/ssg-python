@@ -34,6 +34,12 @@ def markdown_to_html_node(markdown):
             node = ParentNode("pre", [code_node])
             root_children.append(node)
 
+        if block_type is BlockType.HEADING:
+            hash, content = block.split(maxsplit=1)
+            children = text_to_children(content)
+            node = ParentNode(f"h{len(hash)}", children)
+            root_children.append(node)
+
         # Assign the proper child HTMLNode objects to the block node.
 
         # The "code" block is a bit of a special case: it should **not** do any inline markdown parsing of its children.
