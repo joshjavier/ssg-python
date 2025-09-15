@@ -51,6 +51,17 @@ def markdown_to_html_node(markdown):
             ul = ParentNode("ul", list_items)
             root_children.append(ul)
 
+        if block_type is BlockType.ORDERED_LIST:
+            lines = [line.strip() for line in block.split("\n")]
+            list_items = []
+            for line in lines:
+                _, content = line.split(". ", 1)
+                children = text_to_children(content)
+                li = ParentNode("li", children)
+                list_items.append(li)
+            ol = ParentNode("ol", list_items)
+            root_children.append(ol)
+
         # Assign the proper child HTMLNode objects to the block node.
 
         # The "code" block is a bit of a special case: it should **not** do any inline markdown parsing of its children.

@@ -68,3 +68,14 @@ the **same** even with inline stuff
         self.assertEqual(
             html, "<div><ul><li>List item</li><li>List item</li></ul></div>"
         )
+
+    def test_ordered_list(self):
+        md = """
+1. List item
+2. Another list item
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html, "<div><ol><li>List item</li><li>Another list item</li></ol></div>"
+        )
