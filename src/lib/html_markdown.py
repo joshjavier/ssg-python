@@ -40,6 +40,17 @@ def markdown_to_html_node(markdown):
             node = ParentNode(f"h{len(hash)}", children)
             root_children.append(node)
 
+        if block_type is BlockType.UNORDERED_LIST:
+            lines = [line.strip() for line in block.split("\n")]
+            list_items = []
+            for line in lines:
+                _, content = line.split(maxsplit=1)
+                children = text_to_children(content)
+                li = ParentNode("li", children)
+                list_items.append(li)
+            ul = ParentNode("ul", list_items)
+            root_children.append(ul)
+
         # Assign the proper child HTMLNode objects to the block node.
 
         # The "code" block is a bit of a special case: it should **not** do any inline markdown parsing of its children.

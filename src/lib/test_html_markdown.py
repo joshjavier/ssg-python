@@ -57,3 +57,14 @@ the **same** even with inline stuff
         node = markdown_to_html_node(md)
         html = node.to_html()
         self.assertEqual(html, "<div><p>####### Header</p></div>")
+
+    def test_unordered_list(self):
+        md = """
+- List item
+- List item
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html, "<div><ul><li>List item</li><li>List item</li></ul></div>"
+        )
