@@ -79,3 +79,15 @@ the **same** even with inline stuff
         self.assertEqual(
             html, "<div><ol><li>List item</li><li>Another list item</li></ol></div>"
         )
+
+    def test_blockquote(self):
+        md = """
+> Words can be like X-rays if you use them properly&mdash;
+> they'll go through anything. You read and you're pierced.
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><blockquote>Words can be like X-rays if you use them properly&mdash; they'll go through anything. You read and you're pierced.</blockquote></div>",
+        )

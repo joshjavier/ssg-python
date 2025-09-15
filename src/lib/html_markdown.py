@@ -62,6 +62,12 @@ def markdown_to_html_node(markdown):
             ol = ParentNode("ol", list_items)
             root_children.append(ol)
 
+        if block_type is BlockType.QUOTE:
+            text = "\n".join([line[2:] for line in block.split("\n")])
+            children = text_to_children(text)
+            node = ParentNode("blockquote", children)
+            root_children.append(node)
+
         # Assign the proper child HTMLNode objects to the block node.
 
         # The "code" block is a bit of a special case: it should **not** do any inline markdown parsing of its children.
