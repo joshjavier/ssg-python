@@ -23,7 +23,7 @@ class BlockType(Enum):
 
 def block_to_block_type(block):
     heading = re.compile(r"^#{1,6} .+$")
-    code = re.compile(r"^```.*\n.*\n\s*```$")
+    code = re.compile(r"^```.*\n(.*\n)*\s*```$")
     quote = re.compile(r"^> .+$", re.MULTILINE)
     unordered_list = re.compile(r"^\s*- .+$", re.MULTILINE)
     ordered_list = re.compile(r"^\s*\d+\. .+$", re.MULTILINE)

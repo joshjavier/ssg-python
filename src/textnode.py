@@ -16,6 +16,10 @@ class TextNode:
         self.text_type = text_type
         self.url = url
 
+        if text_type is TextType.CODE and text.startswith("```"):
+            self.text = self.text.strip("```")
+            self.text = self.text.lstrip()
+
     def __eq__(self, other):
         same_text = self.text == other.text
         same_text_type = self.text_type == other.text_type
