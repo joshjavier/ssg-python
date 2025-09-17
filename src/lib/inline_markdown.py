@@ -16,6 +16,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 "Invalid markdown syntax: Matching closing delimiter not found."
             )
         for i in range(len(segments)):
+            if not segments[i]:
+                continue  # don't create empty text nodes
             # segments at even indices are text segments,
             # while segments at odd indices are `text_type`
             new_node = TextNode(segments[i], text_type if i % 2 != 0 else TextType.TEXT)

@@ -1,4 +1,6 @@
-from lib.page import generate_page
+import os
+
+from lib.page import generate_page, generate_pages
 from static import copy_static
 
 
@@ -10,7 +12,7 @@ def main():
     else:
         print("Nothing to copy.")
 
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages("content", "public")
 
 
 if __name__ == "__main__":

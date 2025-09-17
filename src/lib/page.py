@@ -36,3 +36,21 @@ def generate_page(from_path, template_path, dest_path):
                 output.write(full_html)
 
     print("Done!")
+
+
+def generate_pages(input, output, layout="template.html"):
+    input_abspath = os.path.abspath(input)
+    output_abspath = os.path.abspath(output)
+    layout_abspath = os.path.abspath(layout)
+
+    for entry in os.listdir(input_abspath):
+        entry_abspath = os.path.join(input_abspath, entry)
+        if os.path.isdir(entry_abspath):
+            output_subdir = os.path.join(output_abspath, entry)
+            generate_pages(entry_abspath, output_subdir)
+        else:
+            filename, _ = entry.split(".")
+            filename += ".html"
+            generate_page(
+                entry_abspath, layout_abspath, os.path.join(output_abspath, filename)
+            )
