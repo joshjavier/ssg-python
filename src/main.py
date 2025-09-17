@@ -1,6 +1,4 @@
-import os
-
-from lib.page import generate_page, generate_pages
+from lib.generator import generate_pages_recursive
 from static import copy_static
 
 
@@ -12,7 +10,7 @@ def main():
     else:
         print("Nothing to copy.")
 
-    generate_pages("content", "public")
+    generate_pages_recursive("content", "template.html", "public")
 
 
 if __name__ == "__main__":

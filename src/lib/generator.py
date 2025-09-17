@@ -38,16 +38,16 @@ def generate_page(from_path, template_path, dest_path):
     print("Done!")
 
 
-def generate_pages(input, output, layout="template.html"):
-    input_abspath = os.path.abspath(input)
-    output_abspath = os.path.abspath(output)
-    layout_abspath = os.path.abspath(layout)
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    input_abspath = os.path.abspath(dir_path_content)
+    output_abspath = os.path.abspath(dest_dir_path)
+    layout_abspath = os.path.abspath(template_path)
 
     for entry in os.listdir(input_abspath):
         entry_abspath = os.path.join(input_abspath, entry)
         if os.path.isdir(entry_abspath):
             output_subdir = os.path.join(output_abspath, entry)
-            generate_pages(entry_abspath, output_subdir)
+            generate_pages_recursive(entry_abspath, layout_abspath, output_subdir)
         else:
             filename, _ = entry.split(".")
             filename += ".html"

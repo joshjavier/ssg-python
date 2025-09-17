@@ -1,6 +1,7 @@
 import unittest
 
-from lib.page import extract_title
+from lib.generator import extract_title
+
 
 class TestPage(unittest.TestCase):
     def test_extract_title(self):
