@@ -11,7 +11,7 @@ def extract_title(markdown):
     return title[1].strip()
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
 
     with open(from_path, encoding="utf-8") as f:
@@ -26,6 +26,10 @@ def generate_page(from_path, template_path, dest_path):
             full_html = template.replace("{{ Title }}", title)
             full_html = full_html.replace("{{ Content }}", html)
 
+            # Replace links
+            full_html = full_html.replace('href="/', f'href="{basepath}')
+            full_html = full_html.replace('src="/', f'src="{basepath}')
+
             # Create directories if they don't exist yet
             dest_dir, _ = os.path.split(dest_path)
             if not os.path.exists(dest_dir):
@@ -38,7 +42,7 @@ def generate_page(from_path, template_path, dest_path):
     print("Done!")
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     input_abspath = os.path.abspath(dir_path_content)
     output_abspath = os.path.abspath(dest_dir_path)
     layout_abspath = os.path.abspath(template_path)
@@ -47,10 +51,15 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         entry_abspath = os.path.join(input_abspath, entry)
         if os.path.isdir(entry_abspath):
             output_subdir = os.path.join(output_abspath, entry)
-            generate_pages_recursive(entry_abspath, layout_abspath, output_subdir)
+            generate_pages_recursive(
+                entry_abspath, layout_abspath, output_subdir, basepath
+            )
         else:
             filename, _ = entry.split(".")
             filename += ".html"
             generate_page(
-                entry_abspath, layout_abspath, os.path.join(output_abspath, filename)
+                entry_abspath,
+                layout_abspath,
+                os.path.join(output_abspath, filename),
+                basepath,
             )
